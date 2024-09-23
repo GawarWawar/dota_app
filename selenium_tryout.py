@@ -66,12 +66,12 @@ class DotAMatch:
             return "Match has been parsed sucsessfully"
 
     
-
-MATCH_ID = 7904861993
-d_match = DotAMatch(MATCH_ID)
-d_match.check_parsed_status()
-print(d_match.parse_match())
-print(d_match.check_parsed_status())
+if __name__ == "__main__":
+    MATCH_ID = 7904861993
+    d_match = DotAMatch(MATCH_ID)
+    d_match.check_parsed_status()
+    print(d_match.parse_match())
+    print(d_match.check_parsed_status())
 
 
 
