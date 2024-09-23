@@ -18,7 +18,7 @@ def set_up_driver(
         driver_options.add_argument("--enable-javascript")
     return webdriver.Chrome(options=driver_options)
 
-class DotAMatch:
+class DotaMatch:
     def __init__(
         self, 
         MATCH_ID, 
@@ -68,7 +68,7 @@ class DotAMatch:
     
 if __name__ == "__main__":
     MATCH_ID = 7904861993
-    d_match = DotAMatch(MATCH_ID)
+    d_match = DotaMatch(MATCH_ID)
     d_match.check_parsed_status()
     print(d_match.parse_match())
     print(d_match.check_parsed_status())
