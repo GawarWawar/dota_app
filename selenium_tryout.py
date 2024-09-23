@@ -38,7 +38,7 @@ class DotAMatch:
         assert "OpenDota" in self.driver.title
 
         text_indicator = "The replay for this match has not yet been parsed. Not all data may be available."
-        time.sleep(5)
+        time.sleep(2)
         body = self.driver.find_element(By.TAG_NAME, "body")
 
         if text_indicator in body.text:
@@ -46,7 +46,7 @@ class DotAMatch:
         else:
             return True
         
-    def parce_match(self) -> str:
+    def parse_match(self) -> str:
         if self._is_processed:
             if self._is_parsed: return "Match is already parsed"
             body = self.driver.find_element(By.TAG_NAME, "body")
@@ -56,7 +56,7 @@ class DotAMatch:
                 return "Match could not be parsed"
             
             self.driver.get(f"https://www.opendota.com/request#{MATCH_ID}")
-            text_indicator = "Requesxt a Parse"
+            text_indicator = "Request a Parse"
             time.sleep(2)
             while True:
                     body = self.driver.find_element(By.TAG_NAME, "body")
@@ -67,10 +67,10 @@ class DotAMatch:
 
     
 
-MATCH_ID = 7948218329
+MATCH_ID = 7904861993
 d_match = DotAMatch(MATCH_ID)
 d_match.check_parsed_status()
-print(d_match.parce_match())
+print(d_match.parse_match())
 print(d_match.check_parsed_status())
 
 
