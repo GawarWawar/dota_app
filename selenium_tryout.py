@@ -11,46 +11,16 @@ from selenium.webdriver.chrome.options import Options
 
 import time
 
-def show_elements(elements):
-    for el in elements:
-        print(el.tag_name)
-        print(el.get_attribute("id"))
-        print(el.get_attribute("name"))
-        print(el.get_attribute("class"))
-        
-def show_element(el):
-    print(el.tag_name)
-    print(el.get_attribute("id"))
-    print(el.get_attribute("name"))
-    print(el.get_attribute("class"))
-    
-def check_text(el, text):
-    if text in el.text:
-        print("Found the text!")
-    else:
-        print("Text not found!")
-        
-def check_text_for_all_elemnts(elements, text):
-    for el in elements:
-        check_text(el, text)
-
 chrome_options = Options()
-# chrome_options.add_argument("--headless")
+chrome_options.add_argument("--headless")
 chrome_options.add_argument("--enable-javascript")
 
 driver = webdriver.Chrome(options=chrome_options)
-
-# firefox_options = Options()
-# firefox_options.add_argument("--headless")
-# firefox_options.add_argument("--enable-javascript")
-
-# driver = webdriver.Firefox(options=firefox_options)
 
 MATCH_ID = 7952112098
 
 driver.get(f"https://www.opendota.com/matches/{MATCH_ID}")
 assert "OpenDota" in driver.title
-
 
 target_text = "The replay for this match has not yet been parsed. Not all data may be available."
 time.sleep(5)
