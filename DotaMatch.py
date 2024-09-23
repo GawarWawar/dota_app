@@ -9,12 +9,14 @@ from selenium.common.exceptions import NoSuchElementException
 import time
 
 def set_up_driver(
-    driver_options: webdriver.IeOptions|None = None
+    driver_options: webdriver.IeOptions|None = None,
+    debug: bool = False
 ):
 
     if driver_options is None:
         driver_options = Options()
-        # driver_options.add_argument("--headless")
+        if not debug:
+            driver_options.add_argument("--headless")
         driver_options.add_argument("--enable-javascript")
     return webdriver.Chrome(options=driver_options)
 
