@@ -5,20 +5,9 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import NoSuchElementException
 
-
 import time
 
-def set_up_driver(
-    driver_options: webdriver.IeOptions|None = None,
-    debug: bool = False
-):
-
-    if driver_options is None:
-        driver_options = Options()
-        if not debug:
-            driver_options.add_argument("--headless")
-        driver_options.add_argument("--enable-javascript")
-    return webdriver.Chrome(options=driver_options)
+import utils
 
 class DotaMatch:
     def __init__(
@@ -27,7 +16,7 @@ class DotaMatch:
         driver_options: Options = None
     ) -> None:
         self.MATCH_ID = MATCH_ID
-        self.driver = set_up_driver(driver_options)
+        self.driver = utils.set_up_driver(driver_options)
         self._is_processed = False
     
     def check_parsed_status(self) -> bool:
