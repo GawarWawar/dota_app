@@ -40,23 +40,17 @@ class DotaMatch:
             return True
         
     def parse_match(self) -> str:
-        if self._is_processed:
-            if self._is_parsed: return "Match is already parsed"
-            body = self.driver.find_element(By.TAG_NAME, "body")
-            try:
-                self.driver.find_element(By.CLASS_NAME, "matchButtons")
-            except NoSuchElementException:
-                return "Match could not be parsed"
-            
-            self.driver.get(f"https://www.opendota.com/request#{MATCH_ID}")
-            text_indicator = "Request a Parse"
-            time.sleep(2)
-            while True:
-                    body = self.driver.find_element(By.TAG_NAME, "body")
-                    if text_indicator not in body.text:
-                        break
-            
-            return "Match has been parsed sucsessfully"
+        if self._is_parsed: return "Match is already parsed"
+        
+        self.driver.get(f"https://www.opendota.com/request#{MATCH_ID}")
+        text_indicator = "Request a Parse"
+        time.sleep(2)
+        while True:
+                body = self.driver.find_element(By.TAG_NAME, "body")
+                if text_indicator not in body.text:
+                    break
+        
+        return "Match has been parsed sucsessfully"
 
     
 if __name__ == "__main__":
