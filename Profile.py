@@ -22,11 +22,9 @@ class DotaProfile:
         self.PROFILE_ID = PROFILE_ID
         if driver is None:
             self.driver = utils.set_up_driver(driver_options)
-        self._is_processed = False
         
     def get_last_match(self) -> DotaMatch|None:
         self.driver.get(f"https://www.opendota.com/players/{self.PROFILE_ID}")
-        self._is_processed = True
         
         time.sleep(2)
         body = self.driver.find_elements(By.TAG_NAME, "a")
@@ -42,7 +40,6 @@ class DotaProfile:
     
     def get_resent_matches(self) -> list[DotaMatch]:
         self.driver.get(f"https://www.opendota.com/players/{self.PROFILE_ID}")
-        self._is_processed = True
         
         time.sleep(2)
         body = self.driver.find_elements(By.TAG_NAME, "a")

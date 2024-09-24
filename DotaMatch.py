@@ -19,7 +19,6 @@ class DotaMatch:
         self.MATCH_ID = MATCH_ID
         if driver is None:
             self.driver = utils.set_up_driver(driver_options)
-        self._is_processed = False
     
     def check_parsed_status(self) -> bool:
         self._is_parsed = self._is_parsed_()
@@ -27,7 +26,6 @@ class DotaMatch:
         
     def _is_parsed_(self) -> bool:
         self.driver.get(f"https://www.opendota.com/matches/{self.MATCH_ID}")
-        self._is_processed = True
         assert "OpenDota" in self.driver.title
 
         text_indicator = "The replay for this match has not yet been parsed. Not all data may be available."
