@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException
 
 import time
 import utils
@@ -57,11 +57,58 @@ class DotaProfile:
                 )
         return matches
             
+    def get_matches(
+        self,
+        amount_of_matches_to_get: int = 20
+    ):
+        self.driver.get(f"https://www.opendota.com/players/{self.PROFILE_ID}/matches")
+        
+        time.sleep(2)
+        
+
+        link_text = "https://www.opendota.com/matches/"
+        id_of_matches = []
+        n_of_button = 1
+        while len(id_of_matches) < amount_of_matches_to_get:
+
+            
+            buttons = self.driver.find_elements(By.TAG_NAME, "button")
+            for button in buttons:
+                if button.text == str(n_of_button):
+                    try:
+                        button.click()
+                    except ElementClickInterceptedException:
+                        break
+                    else:
+                        break
+            n_of_button += 1
+            body = self.driver.find_elements(By.TAG_NAME, "a")
+            
+            for el in body:
+                link = el.get_attribute("href")
+                if link_text in link:
+                    match_id = int(link.removeprefix(link_text))
+                    if (
+                        len(id_of_matches) < amount_of_matches_to_get
+                        and match_id not in id_of_matches
+                    ):    
+                        id_of_matches.append(
+                            match_id
+                        )
+        
+        matches = []
+        for id in id_of_matches:    
+            matches.append(DotaMatch(id, driver=self.driver))
+                
+        return matches
             
         
         
 if __name__ == "__main__":
-    profile = DotaProfile(167230743)
+    driver = utils.set_up_driver(debug=True)
+    profile = DotaProfile(167230743, driver=driver)
     
-    profile.driver = utils.set_up_driver(debug=True)
-    profile.get_last_match()
+    matches = profile.get_matches(39)
+    for d_match in matches:
+        print(d_match.MATCH_ID)
+    print(len(matches))
