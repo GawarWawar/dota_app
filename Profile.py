@@ -29,8 +29,6 @@ class DotaProfile:
         self._is_processed = True
         
         time.sleep(2)
-        with open("test.html", "w") as f:
-            f.write(self.driver.page_source)
         body = self.driver.find_elements(By.TAG_NAME, "a")
         
         link_text = "https://www.opendota.com/matches/"
@@ -47,8 +45,6 @@ class DotaProfile:
         self._is_processed = True
         
         time.sleep(2)
-        with open("test.html", "w") as f:
-            f.write(self.driver.page_source)
         body = self.driver.find_elements(By.TAG_NAME, "a")
         
         link_text = "https://www.opendota.com/matches/"
