@@ -15,7 +15,7 @@ import utils
 class DotaProfile:
     def __init__(
         self,
-        PROFILE_ID,
+        PROFILE_ID: int,
         driver: WebDriver|None = None,
         driver_options: Options = None
     ) -> None:
@@ -29,11 +29,11 @@ class DotaProfile:
         self.driver.get(f"https://www.opendota.com/players/{self.PROFILE_ID}")
         
         time.sleep(2)
-        body = self.driver.find_elements(By.TAG_NAME, "a")
+        all_a_tags = self.driver.find_elements(By.TAG_NAME, "a")
         
         link_text = "https://www.opendota.com/matches/"
-        for el in body:
-            link = el.get_attribute("href")
+        for a_tag in all_a_tags:
+            link = a_tag.get_attribute("href")
             if link_text in link:
                 match_id = int(link.removeprefix(link_text))
                 return DotaMatch(match_id, driver=self.driver)
@@ -44,12 +44,12 @@ class DotaProfile:
         self.driver.get(f"https://www.opendota.com/players/{self.PROFILE_ID}")
         
         time.sleep(2)
-        body = self.driver.find_elements(By.TAG_NAME, "a")
+        all_a_tags = self.driver.find_elements(By.TAG_NAME, "a")
         
         link_text = "https://www.opendota.com/matches/"
         matches = []
-        for el in body:
-            link = el.get_attribute("href")
+        for a_tag in all_a_tags:
+            link = a_tag.get_attribute("href")
             if link_text in link:
                 match_id = int(link.removeprefix(link_text))
                 matches.append(
@@ -60,7 +60,7 @@ class DotaProfile:
     def get_matches(
         self,
         amount_of_matches_to_get: int = 20
-    ):
+    ) -> list[DotaMatch]:
         self.driver.get(f"https://www.opendota.com/players/{self.PROFILE_ID}/matches")
         
         time.sleep(2)
@@ -70,10 +70,8 @@ class DotaProfile:
         id_of_matches = []
         n_of_button = 1
         while len(id_of_matches) < amount_of_matches_to_get:
-
-            
-            buttons = self.driver.find_elements(By.TAG_NAME, "button")
-            for button in buttons:
+            all_buttons = self.driver.find_elements(By.TAG_NAME, "button")
+            for button in all_buttons:
                 if button.text == str(n_of_button):
                     try:
                         button.click()
@@ -82,10 +80,10 @@ class DotaProfile:
                     else:
                         break
             n_of_button += 1
-            body = self.driver.find_elements(By.TAG_NAME, "a")
             
-            for el in body:
-                link = el.get_attribute("href")
+            all_a_tags = self.driver.find_elements(By.TAG_NAME, "a")
+            for a_tag in all_a_tags:
+                link = a_tag.get_attribute("href")
                 if link_text in link:
                     match_id = int(link.removeprefix(link_text))
                     if (

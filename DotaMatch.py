@@ -12,7 +12,7 @@ import utils
 class DotaMatch:
     def __init__(
         self, 
-        MATCH_ID, 
+        MATCH_ID: int, 
         driver: WebDriver|None = None,
         driver_options: Options|None = None
     ) -> None:
@@ -40,7 +40,7 @@ class DotaMatch:
             return True
         
     def parse_match(self) -> str:
-        if self._is_parsed: return "Match is already parsed"
+        if self._is_parsed: return "Already parsed"
         
         self.driver.get(f"https://www.opendota.com/request#{MATCH_ID}")
         text_indicator = "Request a Parse"
@@ -50,7 +50,7 @@ class DotaMatch:
                 if text_indicator not in body.text:
                     break
         
-        return "Match has been parsed sucsessfully"
+        return "Parse request successful"
 
     
 if __name__ == "__main__":
