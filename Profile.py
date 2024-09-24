@@ -16,10 +16,12 @@ class DotaProfile:
     def __init__(
         self,
         PROFILE_ID,
+        driver: WebDriver|None = None,
         driver_options: Options = None
     ) -> None:
         self.PROFILE_ID = PROFILE_ID
-        self.driver = utils.set_up_driver(driver_options)
+        if driver is None:
+            self.driver = utils.set_up_driver(driver_options)
         self._is_processed = False
         
     def get_last_match(self) -> DotaMatch:
@@ -36,7 +38,7 @@ class DotaProfile:
             link = el.get_attribute("href")
             if link_text in link:
                 match_id = int(link.removeprefix(link_text))
-                return DotaMatch(match_id)
+                return DotaMatch(match_id, driver=self.driver)
             
         return None
             

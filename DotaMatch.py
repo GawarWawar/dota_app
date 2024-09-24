@@ -13,10 +13,12 @@ class DotaMatch:
     def __init__(
         self, 
         MATCH_ID, 
-        driver_options: Options = None
+        driver: WebDriver|None = None,
+        driver_options: Options|None = None
     ) -> None:
         self.MATCH_ID = MATCH_ID
-        self.driver = utils.set_up_driver(driver_options)
+        if driver is None:
+            self.driver = utils.set_up_driver(driver_options)
         self._is_processed = False
     
     def check_parsed_status(self) -> bool:
