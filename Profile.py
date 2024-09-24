@@ -22,6 +22,8 @@ class DotaProfile:
         self.PROFILE_ID = PROFILE_ID
         if driver is None:
             self.driver = utils.set_up_driver(driver_options)
+        else:
+            self.driver = driver
         
     def get_last_match(self) -> DotaMatch|None:
         self.driver.get(f"https://www.opendota.com/players/{self.PROFILE_ID}")

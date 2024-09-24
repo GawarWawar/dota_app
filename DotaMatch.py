@@ -19,6 +19,8 @@ class DotaMatch:
         self.MATCH_ID = MATCH_ID
         if driver is None:
             self.driver = utils.set_up_driver(driver_options)
+        else:
+            self.driver = driver
     
     def check_parsed_status(self) -> bool:
         self._is_parsed = self._is_parsed_()
