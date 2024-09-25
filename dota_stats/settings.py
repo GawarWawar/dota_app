@@ -37,6 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'celery',
+    'django_celery_beat',
+    'django_celery_results',
+    
+    "opendota_forcer.apps.OpendotaForcerConfig"
 ]
 
 MIDDLEWARE = [
