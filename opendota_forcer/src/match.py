@@ -5,7 +5,7 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import NoSuchElementException
 import time
 
-import utils
+from . import utils
 
 class DotaMatch:
     def __init__(
@@ -40,7 +40,7 @@ class DotaMatch:
     def parse_match(self) -> str:
         if self._is_parsed: return "Already parsed"
         
-        self.driver.get(f"https://www.opendota.com/request#{MATCH_ID}")
+        self.driver.get(f"https://www.opendota.com/request#{self.MATCH_ID}")
         text_indicator = "Request a Parse"
         time.sleep(2)
         while True:
@@ -49,14 +49,6 @@ class DotaMatch:
                     break
         
         return "Parse request successful"
-
-    
-if __name__ == "__main__":
-    MATCH_ID = 7904861993
-    d_match = DotaMatch(MATCH_ID)
-    d_match.check_parsed_status()
-    print(d_match.parse_match())
-    print(d_match.check_parsed_status())
 
 
 

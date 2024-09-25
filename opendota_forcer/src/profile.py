@@ -7,8 +7,8 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.common.exceptions import NoSuchElementException, ElementClickInterceptedException
 import time
 
-from match import DotaMatch
-import utils
+from .match import DotaMatch
+from . import utils
 
 # PLATER_ID = 167230743
 
@@ -40,7 +40,7 @@ class DotaProfile:
             
         return None
     
-    def get_resent_matches(self) -> list[DotaMatch]:
+    def get_recent_matches(self) -> list[DotaMatch]:
         self.driver.get(f"https://www.opendota.com/players/{self.PROFILE_ID}")
         
         time.sleep(2)
@@ -99,14 +99,3 @@ class DotaProfile:
             matches.append(DotaMatch(id, driver=self.driver))
                 
         return matches
-            
-        
-        
-if __name__ == "__main__":
-    driver = utils.set_up_driver(debug=True)
-    profile = DotaProfile(167230743, driver=driver)
-    
-    matches = profile.get_matches(39)
-    for d_match in matches:
-        print(d_match.MATCH_ID)
-    print(len(matches))
