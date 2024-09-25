@@ -8,7 +8,7 @@ class DotaUser (models.Model):
     status = models.BooleanField("User status", default=True)
     
 class DotaMatch (models.Model):
-    id = models.ImageField("Match", primary_key=True)
+    id = models.IntegerField("Match", primary_key=True)
     adding_date = models.DateField("Adding date", auto_now=False, auto_now_add=False, default=datetime.datetime.now)
     
 class Scan (models.Model):
