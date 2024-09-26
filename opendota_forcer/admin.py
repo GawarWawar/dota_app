@@ -17,8 +17,8 @@ class DotaMatchAdmin(admin.ModelAdmin):
 
 class ScanAdmin(admin.ModelAdmin):
     list_display = [
-        "profile_id",
-        "match_id",
+        "profile_instance",
+        "match_instance",
         "scan_date",
         "parsed_before"
     ]
