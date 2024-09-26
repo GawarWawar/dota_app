@@ -7,12 +7,12 @@ from .tasks import process_user_last_match
 def task_success_handler(
     sender=None, task_id = None, **kwargs
 ):
-        if sender.name == process_user_last_match.process_user_last_match:
+        if sender.name == process_user_last_match.process_user_last_match.name:
             
             # TODO: transform into separate class LoggerHandler
             logger = utils.get_logger(
                 f"Profile: {sender.profile_id}; Match: {sender.match_id}",
-                # TODO: SET UP ENV VARIABLE
+                # TODO: set up this as env variable
                 log_level="INFO"
             )
             file_handler = utils.assign_filehandler_to_logger(
