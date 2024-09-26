@@ -11,5 +11,6 @@ result_extended = True
 timezone = 'UTC'
 
 include=(
-    "opendota_forcer.tasks.get_matches"
+    "opendota_forcer.tasks.process_active_users",
+    "opendota_forcer.tasks.process_user_last_match",
 )
