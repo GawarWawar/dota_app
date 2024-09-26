@@ -65,7 +65,6 @@ class DotaProfile:
         
         time.sleep(2)
         
-
         link_text = "https://www.opendota.com/matches/"
         id_of_matches = []
         n_of_button = 1
@@ -76,9 +75,8 @@ class DotaProfile:
                     try:
                         button.click()
                     except ElementClickInterceptedException:
-                        break
-                    else:
-                        break
+                        pass
+                    break
             n_of_button += 1
             
             all_a_tags = self.driver.find_elements(By.TAG_NAME, "a")
