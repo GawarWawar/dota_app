@@ -37,7 +37,7 @@ def assign_filehandler_to_logger (
 ):       
     file_handler = logging.FileHandler(
         os.path.join(
-            file_location
+            *file_location
         )
     )
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
