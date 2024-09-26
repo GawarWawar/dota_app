@@ -30,7 +30,7 @@ def task_success_handler(
             file_handler = utils.assign_filehandler_to_logger(
                 logger=logger
             )
-            message = "Last match check was started for:"
+            message = "Last match check was started for: "
             for user_count, user in enumerate(sender.users_processed):
                 if user_count == 0:
                     message += f"{user}"
