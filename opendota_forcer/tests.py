@@ -19,7 +19,7 @@ class DotaMatchTest(TestCase):
         MATCH_ID = 7904861993
         d_match = DotaMatch(MATCH_ID)
         status = d_match.parse_match()  
-        assert status == "Parced status is not defined." 
+        assert status == "Parsed status is not defined." 
 
 class DotaProfileTest(TestCase):
     def test_get_last_match(self):

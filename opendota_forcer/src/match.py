@@ -41,7 +41,7 @@ class DotaMatch:
         try:
             if self._is_parsed: return "Already parsed"
         except AttributeError:
-            return "Parced status is not defined."
+            return "Parsed status is not defined."
         
         self.driver.get(f"https://www.opendota.com/request#{self.MATCH_ID}")
         text_indicator = "Request a Parse"
