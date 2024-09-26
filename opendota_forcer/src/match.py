@@ -39,7 +39,7 @@ class DotaMatch:
         
     def parse_match(self) -> str:
         try:
-            if self._is_parsed: return "Already parsed"
+            if self._is_parsed: return "Match was already parsed"
         except AttributeError:
             return "Parsed status is not defined."
         
