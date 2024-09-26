@@ -10,6 +10,11 @@ result_extended = True
 
 timezone = 'UTC'
 
+imports = (
+    "celery_instance.schedule",
+    "opendota_forcer.signals",
+)
+
 include=(
     "opendota_forcer.tasks.process_active_users",
     "opendota_forcer.tasks.process_user_last_match",
