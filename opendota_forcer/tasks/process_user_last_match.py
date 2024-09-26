@@ -30,7 +30,7 @@ def process_user_last_match(
     self.message = last_match.parse_match()
     
     scan_object = models.Scan.objects.create(
-        profile_id = models.DotaUser.objects.get(id = profile.PROFILE_ID),
+        profile_id = models.DotaProfile.objects.get(id = profile.PROFILE_ID),
         match_id = match_object,
         parsed_before = parsed_before
     )

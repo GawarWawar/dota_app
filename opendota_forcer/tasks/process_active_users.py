@@ -14,7 +14,7 @@ from .process_user_last_match import process_user_last_match
     bind = True,
 )
 def process_active_users(self):
-    active_users = models.DotaUser.objects.filter(status = True)
+    active_users = models.DotaProfile.objects.filter(status = True)
     
     users_processed = []
     for user in active_users:
