@@ -7,6 +7,7 @@ from .src.match import DotaMatch
 from .src.profile import DotaProfile
 # Create your tests here.
 
+#TODO: do tests for Celery tasks
 
 class DotaMatchTest(TestCase):
     def test_parsed_status(self):

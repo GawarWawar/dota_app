@@ -12,6 +12,8 @@ from . import utils
 
 # PLATER_ID = 167230743
 
+# TODO: fix time.sleep()
+
 class DotaProfile:
     def __init__(
         self,
