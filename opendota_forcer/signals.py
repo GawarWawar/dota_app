@@ -9,7 +9,6 @@ def task_success_handler(
 ):
         if sender.name == process_user_last_match.process_user_last_match.name:
             
-            # TODO: transform into separate class LoggerHandler
             logger = utils.get_logger(
                 f"Profile: {sender.profile_id}; Match: {sender.match_id}",
                 # TODO: set up this as env variable

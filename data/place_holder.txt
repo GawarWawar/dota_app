@@ -1,0 +1,1 @@
+A text file to create data folder. In this folder logs and other data will be stored

@@ -8,7 +8,11 @@ from .process_user_last_match import process_user_last_match
     bind = True,
 )
 def process_active_users(self) -> list[tuple[int, str]]:
+    """ Celery task that gathers all active users in models.DotaProfile and then calls process_user_last_match for every one of them
 
+    Returns:
+        list[tuple[int, str]]: list with users.id and user.name chained in tuple. In other words, list of tuples with id and name of the user.
+    """
     active_users = models.DotaProfile.objects.filter(is_active = True)
     
     users_processed = []

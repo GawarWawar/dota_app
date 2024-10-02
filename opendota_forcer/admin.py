@@ -3,6 +3,8 @@ from django.contrib import admin
 from . import models
 
 class DotaProfileAdmin(admin.ModelAdmin):
+    """ Admin for DotaProfile model
+    """
     list_display = [
         "id",
         "name",
@@ -10,12 +12,16 @@ class DotaProfileAdmin(admin.ModelAdmin):
     ]
 
 class DotaMatchAdmin(admin.ModelAdmin):
+    """ Admin for DotaMatch model
+    """
     list_display = [
         "id",
         "adding_date",
     ]
 
 class ScanAdmin(admin.ModelAdmin):
+    """ Admin for Scan model
+    """
     list_display = [
         "profile_instance",
         "match_instance",

@@ -12,7 +12,15 @@ def set_up_driver(
     driver_options: webdriver.IeOptions|None = None,
     debug: bool = False
 ) -> WebDriver:
+    """ Sets up Chrome WebDriver with default or given options 
 
+    Args:
+        driver_options (webdriver.IeOptions | None, optional): Options to Chrome Webdriver. Defaults to None to use default Options.
+        debug (bool, optional): Enable --headless option to see what Webdriver is doing. Defaults to False.
+
+    Returns:
+        WebDriver: Chrome Webdriver with given Options
+    """
     if driver_options is None:
         driver_options = Options()
         if not debug:
@@ -21,6 +29,7 @@ def set_up_driver(
     return webdriver.Chrome(options=driver_options)
 
 
+# TODO: transform into separate class LoggerHandler
 # Create logger to make logs
 def get_logger (
     logger_name: str,

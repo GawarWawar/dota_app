@@ -15,6 +15,8 @@ from . import utils
 # TODO: fix time.sleep()
 
 class DotaProfile:
+    """  Class which responsibukuty is to manage users of Dota.
+    """
     def __init__(
         self,
         PROFILE_ID: int,
@@ -28,6 +30,11 @@ class DotaProfile:
             self.driver = driver
         
     def get_last_match(self) -> DotaMatch|None:
+        """ Get last match from the user page at OpenDota.
+
+        Returns:
+            DotaMatch|None: DotaMatch instance or None if it was unsucsessful.
+        """
         self.driver.get(f"https://www.opendota.com/players/{self.PROFILE_ID}")
         
         time.sleep(2)
@@ -43,6 +50,11 @@ class DotaProfile:
         return None
     
     def get_recent_matches(self) -> list[DotaMatch]:
+        """ Get 20 last matches from the user page at OpenDota.
+
+        Returns:
+            list[DotaMatch]: list of last 20 matches as DotaMatch instances.
+        """
         self.driver.get(f"https://www.opendota.com/players/{self.PROFILE_ID}")
         
         time.sleep(2)
@@ -63,6 +75,14 @@ class DotaProfile:
         self,
         amount_of_matches_to_get: int = 20
     ) -> list[DotaMatch]:
+        """ Get arbitrary number of matches from the user/POFILE_ID/matches page at OpenDota
+
+        Args:
+            amount_of_matches_to_get (int, optional): Amount of matches to get. Defaults to 20.
+
+        Returns:
+            list[DotaMatch]: list of amount_of_matches_to_get matches as DotaMatch instances.
+        """
         self.driver.get(f"https://www.opendota.com/players/{self.PROFILE_ID}/matches")
         
         time.sleep(2)

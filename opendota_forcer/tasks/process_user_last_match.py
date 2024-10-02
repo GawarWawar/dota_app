@@ -15,7 +15,16 @@ from opendota_forcer.src.match import DotaMatch
 def process_user_last_match(
     self,
     profile_id: int
-):
+) -> str:
+    """Celery task, that gets last match of the user, checks if it was parsed and then parse it.
+    Also it creates models.DotaMatch for found match; it creates models.Scan to indicate an action of the scanning match
+
+    Args:
+        profile_id (int): id of DotaProfile for which we need to find and parse match
+
+    Returns:
+        str: message that parse_match sends after complition
+    """
     profile = DotaProfile(profile_id)
     
     last_match = profile.get_last_match()
