@@ -11,7 +11,10 @@ import os
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'dota_stats.settings')
 
-app = Celery("celery_instance")
+app = Celery(
+    "celery_instance", 
+    backend='django_celery_results.backends.database:DatabaseBackend'
+)
 
 app.config_from_object('celery_instance.settings')
 app.autodiscover_tasks()
