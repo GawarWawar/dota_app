@@ -18,22 +18,39 @@ class DotaMatch:
         driver_options: Options|None = None
     ) -> None:
         self.MATCH_ID = MATCH_ID
+        self._is_parsed = None
+        
         if driver is None:
             self.driver = utils.set_up_driver(driver_options)
         else:
             self.driver = driver
     
-    def check_parsed_status(self) -> bool:
-        """ Checked parsed status by _is_parsed_() and assign _is_parsed atribute
+    @property
+    def is_parsed(self) -> bool:
+        """ Parse status of the DotaMatch. 
+        After __init__ set to be None. If checked_parsed_status was not used to set is_parsed, uses it to determine status
 
         Returns:
-            bool: If match was already Parsed, it will return True, othervise False
+            bool: False if match is not parsed yet, True othervise
         """
-        self._is_parsed = self._is_parsed_()
+        if self._is_parsed is None:
+            self._is_parsed = self.check_parsed_status()
         return self._is_parsed
-        
-    def _is_parsed_(self) -> bool:
-        """ Underling method that goes to the site of the match and checks if there is a text that stayts "match has not yet been parsed".
+    
+    @is_parsed.setter
+    def is_parsed(self, _):
+        """ Doesnt allow to set any value to the is_parsed directly and redirects to the check_parsed_status
+
+        Args:
+            _ (Any): Setter doesnt allow to set this element on its own, so doesnt matter what type of the argument is
+
+        Raises:
+            AttributeError: Can not set this attribute directly. Use check_parsed_status instead
+        """
+        raise AttributeError("Can not set this attribute directly. Use check_parsed_status")
+    
+    def check_parsed_status(self) -> bool:
+        """  Checked parsed status by going to the site of the match (opendota.com/matches/MATCH_ID) and check if there is a text that stayts "The replay for this match has not yet been parsed. Not all data may be available".
 
         Returns:
             bool: If text is on the page, then return False, that indicates "match is not parsed", othervise True
@@ -46,23 +63,22 @@ class DotaMatch:
         body = self.driver.find_element(By.TAG_NAME, "body")
 
         if text_indicator in body.text:
+            self._is_parsed = False
             return False
         else:
+            self._is_parsed = True
             return True
         
     def parse_match(self) -> str:
         """First check _is_parsed status. If it is assigned and False, proceed to request parse by MATCH_ID, using OpenDota link
+        If _is_parsed was no assigned by check_parsed_status -> self.is_parsed will do it in the check
 
         Returns:
             str: Description of what happened.
-            If _is_parsed was no assigned by check_parsed_status -> "Parsed status is not defined."
             If _is_parsed was True -> "Match was already parsed"
             If parse was sucsessful -> "Parse request successful"
         """
-        try:
-            if self._is_parsed: return "Match was already parsed"
-        except AttributeError:
-            return "Parsed status is not defined."
+        if self.is_parsed: return "Match was already parsed"
         
         self.driver.get(f"https://www.opendota.com/request#{self.MATCH_ID}")
         text_indicator = "Request a Parse"
