@@ -35,12 +35,12 @@ def process_user_last_match(
     if get_match_result[1]:
         match_object.save()
     
-    parsed_before = last_match.check_parsed_status()
     self.message = last_match.parse_match()
+    parsed_before = last_match.is_parsed
     
     scan_object = models.Scan.objects.create(
-        profile_id = models.DotaProfile.objects.get(id = profile.PROFILE_ID),
-        match_id = match_object,
+        profile_instance = models.DotaProfile.objects.get(id = profile.PROFILE_ID),
+        match_instance = match_object,
         parsed_before = parsed_before
     )
     scan_object.save()
