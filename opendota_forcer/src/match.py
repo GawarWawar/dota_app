@@ -19,7 +19,7 @@ class DotaMatch:
     ) -> None:
         self.MATCH_ID = MATCH_ID
         self._is_parsed = None
-        self.players_stats = []
+        self.player_stats:None|list[dict[str, str]] = None
         
         if driver is None:
             self.driver = utils.set_up_driver(driver_options)
@@ -35,7 +35,7 @@ class DotaMatch:
             bool: False if match is not parsed yet, True othervise
         """
         if self._is_parsed is None:
-            self._is_parsed = self.check_parsed_status()
+            self.check_parsed_status()
         return self._is_parsed
     
     @is_parsed.setter
@@ -65,10 +65,9 @@ class DotaMatch:
 
         if text_indicator in body.text:
             self._is_parsed = False
-            return False
         else:
             self._is_parsed = True
-            return True
+        return self._is_parsed
         
     def parse_match(self) -> str:
         """First check _is_parsed status. If it is assigned and False, proceed to request parse by MATCH_ID, using OpenDota link
@@ -90,7 +89,7 @@ class DotaMatch:
                     break
         
         return "Parse request successful"
-    
+
     def collect_match_stats(self) -> list[dict[str, str]]:
         MATCH_SIDES= ["radiant", "dire"]
         PLAYER_TEXT_KEYS = ["level", "nick_name", "lane", "lane_result", "stats"]
@@ -108,27 +107,30 @@ class DotaMatch:
             "damage_to_buildings",
             "wards",
         ]
-        WARDS = ["observer","sentry"]
+        WARDS = ["observer", "sentry"]
 
         self.driver.get(f"https://www.dotabuff.com/matches/{self.MATCH_ID}")
         match_results = self.driver.find_element(By.CLASS_NAME, "team-results")
         
+        self.players_stats = []
         for side in MATCH_SIDES:
             side_results = match_results.find_elements(By.CLASS_NAME, f"faction-{side}")
             for player in side_results:
                 dict_about_player = {}
+                
+                dict_about_player["side"] = side
                 links = player.find_elements(By.TAG_NAME, "a")  
                 for link in links:
                     link_href = link.get_attribute("href")
                     if "heroes" in link_href:
                         dict_about_player["hero_choice"] = link_href.removeprefix("https://www.dotabuff.com/heroes/")
                     
-                    
                 role = player.find_elements(By.CLASS_NAME, "support-icon")
                 if len(role) > 0:
                     dict_about_player["role"] = "support"
                 else:
-                        dict_about_player["role"] = "core"
+                    dict_about_player["role"] = "core"
+                        
                 player_info = player.text.split("\n")
                 for key_number, key in enumerate(PLAYER_TEXT_KEYS):
                     if key == "stats":    
