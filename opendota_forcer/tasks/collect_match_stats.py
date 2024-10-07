@@ -35,6 +35,12 @@ def collect_match_stats(match_id):
                 if "heroes" in link_href:
                     dict_about_player["hero_choice"] = link_href.removeprefix("https://www.dotabuff.com/heroes/")
                 
+                
+            role = player.find_elements(By.CLASS_NAME, "support-icon")
+            if len(role) > 0:
+                dict_about_player["role"] = "support"
+            else:
+                    dict_about_player["role"] = "core"
             player_info = player.text.split("\n")
             for key_number, key in enumerate(PLAYER_TEXT_KEYS):
                 if key == "stats":    
