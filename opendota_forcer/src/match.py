@@ -107,7 +107,7 @@ class DotaMatch:
             "damage_to_buildings",
             "wards",
         ]
-        WARDS = ["observer", "sentry"]
+        WARDS = ["observers", "sentries"]
 
         self.driver.get(f"https://www.dotabuff.com/matches/{self.MATCH_ID}")
         match_results = self.driver.find_element(By.CLASS_NAME, "team-results")
@@ -122,8 +122,11 @@ class DotaMatch:
                 links = player.find_elements(By.TAG_NAME, "a")  
                 for link in links:
                     link_href = link.get_attribute("href")
-                    if "heroes" in link_href:
+                    if "player" in link_href:
+                        dict_about_player["player_id"] = link_href.removeprefix("https://www.dotabuff.com/players/")
+                    elif "heroes" in link_href:
                         dict_about_player["hero_choice"] = link_href.removeprefix("https://www.dotabuff.com/heroes/")
+                    
                     
                 role = player.find_elements(By.CLASS_NAME, "support-icon")
                 if len(role) > 0:
