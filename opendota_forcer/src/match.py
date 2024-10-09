@@ -92,8 +92,12 @@ class DotaMatch:
 
     def collect_match_stats(self) -> list[dict[str, str]]:
         MATCH_SIDES= ["radiant", "dire"]
-        PLAYER_TEXT_KEYS = ["level", "nick_name", "lane", "lane_result", "stats"]
-        STATS_TEXT_KEYS = [
+        PLAYER_TEXT_KEYS ={
+            "complex": ["level", "nick_name", "lane", "lane_result", "stats"],
+            "simple": ["level", "nick_name", "stats"],
+            "anonimus": ["level", "stats"],
+        }
+        KEYS_FOR_STATS = [
             "kills",
             "deaths",
             "assists",
@@ -116,6 +120,7 @@ class DotaMatch:
         for side in MATCH_SIDES:
             side_results = match_results.find_elements(By.CLASS_NAME, f"faction-{side}")
             for player in side_results:
+                keys_for_stats = KEYS_FOR_STATS.copy()
                 dict_about_player = {}
                 
                 dict_about_player["side"] = side
@@ -135,25 +140,35 @@ class DotaMatch:
                     dict_about_player["role"] = "core"
                         
                 player_info = player.text.split("\n")
-                for key_number, key in enumerate(PLAYER_TEXT_KEYS):
+                if len(player_info) <= 2:
+                    text_key_variant = "anonimus"
+                    keys_for_stats.insert(0, "nick_name")
+                elif len(player_info) <= 3:
+                    text_key_variant = "simple"
+                else:
+                    text_key_variant = "complex"
+                    
+                for key_number, key in enumerate(PLAYER_TEXT_KEYS[text_key_variant]):
                     if key == "stats":    
                         player_stats:str = player_info[key_number]
                         stats:list[str] = player_stats.split(" ")
                     else:
                         dict_about_player[key] = player_info[key_number]
                         
-                for stat_number, stat in enumerate(STATS_TEXT_KEYS):
-                    if stat == "heal" and stats[stat_number] == "-":
-                        dict_about_player[stat] = "0"
-                    elif stat == "wards":
-                        player_wards = stats[stat_number].split("/")
-                        for list_position, ward_type in enumerate(WARDS):
-                            if player_wards[list_position] == "-":
-                                dict_about_player[ward_type] = "0"
-                            else:
+                for stat_number, stat in enumerate(keys_for_stats):
+                    if stat == "wards":
+                        if text_key_variant == "complex":
+                            player_wards = stats[stat_number].split("/")
+                            for list_position, ward_type in enumerate(WARDS):
                                 dict_about_player[ward_type] = player_wards[list_position]
+                        else:
+                            for list_position, ward_type in enumerate(WARDS):
+                                dict_about_player[ward_type] = "0"
                     else:
                         dict_about_player[stat] = stats[stat_number]
+                        
+                if dict_about_player["nick_name"] == "Anonymous":
+                    dict_about_player["player_id"] = None
                 self.players_stats.append(dict_about_player)    
         
         return self.players_stats
